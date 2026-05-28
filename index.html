@@ -1,1 +1,406 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynasty Web - Digital Solutions for Texas Contractors</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0a0a0a; color: #f0f0f0; min-height: 100vh; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1e1e1e; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-logo img { width: 36px; height: 36px; object-fit: contain; }
+    .nav-logo span { font-size: 14px; font-weight: 700; color: #eee; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-cta { background: #f5c842; color: #0a0a0a; font-size: 13px; font-weight: 800; padding: 9px 20px; border-radius: 8px; text-decoration: none; letter-spacing: -0.2px; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, #0a0a0a 0%, #111 60%, #1a1a1a 100%); border-bottom: 1px solid #222; padding: 80px 20px 90px; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.25); color: #f5c842; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 16px; border-radius: 20px; margin-bottom: 28px; }
+    .hero h1 { font-size: clamp(30px, 5.5vw, 58px); font-weight: 800; line-height: 1.12; margin-bottom: 22px; letter-spacing: -1.5px; }
+    .hero h1 span { color: #f5c842; }
+    .hero p { font-size: 19px; color: #999; max-width: 580px; margin: 0 auto 40px; line-height: 1.65; }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn { display: inline-block; background: #f5c842; color: #0a0a0a; font-size: 16px; font-weight: 800; padding: 16px 36px; border-radius: 10px; text-decoration: none; cursor: pointer; border: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 24px rgba(245,200,66,0.25); }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,200,66,0.35); }
+    .cta-btn-ghost { display: inline-block; background: transparent; color: #f5c842; font-size: 16px; font-weight: 700; padding: 16px 36px; border-radius: 10px; border: 1px solid rgba(245,200,66,0.4); text-decoration: none; cursor: pointer; transition: all 0.15s; }
+    .cta-btn-ghost:hover { background: rgba(245,200,66,0.08); border-color: #f5c842; }
+    .hero-sub { margin-top: 18px; font-size: 13px; color: #444; }
+
+    /* TRUST BAR */
+    .trust-bar { background: #111; border-bottom: 1px solid #1e1e1e; padding: 16px 20px; text-align: center; }
+    .trust-bar ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; }
+    .trust-bar li { font-size: 13px; color: #666; display: flex; align-items: center; gap: 7px; }
+    .trust-bar li::before { content: ''; display: inline-block; width: 6px; height: 6px; background: #f5c842; border-radius: 50%; }
+
+    /* PRODUCTS SECTION */
+    .products { max-width: 1040px; margin: 0 auto; padding: 80px 20px; }
+    .section-label { font-size: 11px; font-weight: 700; color: #f5c842; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+    .products h2 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; margin-bottom: 14px; letter-spacing: -0.8px; line-height: 1.2; }
+    .products > p { color: #888; font-size: 17px; line-height: 1.7; max-width: 600px; margin-bottom: 56px; }
+    .product-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .product-card { background: #111; border: 1px solid #1e1e1e; border-radius: 16px; padding: 36px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+    .product-card:hover { border-color: rgba(245,200,66,0.3); }
+    .product-card.featured { border-color: rgba(245,200,66,0.25); background: linear-gradient(135deg, #111 0%, #131309 100%); }
+    .product-badge { display: inline-block; background: rgba(245,200,66,0.15); color: #f5c842; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-bottom: 20px; }
+    .product-icon { font-size: 36px; margin-bottom: 18px; }
+    .product-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.4px; color: #eee; }
+    .product-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; }
+    .product-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .product-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #aaa; }
+    .product-features li::before { content: '✓'; color: #f5c842; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+    .product-card-cta { display: inline-block; background: #f5c842; color: #0a0a0a; font-size: 14px; font-weight: 800; padding: 13px 26px; border-radius: 9px; text-decoration: none; cursor: pointer; border: none; width: 100%; text-align: center; transition: opacity 0.15s; }
+    .product-card-cta:hover { opacity: 0.9; }
+    .product-card-cta-ghost { display: inline-block; background: transparent; color: #f5c842; font-size: 14px; font-weight: 700; padding: 13px 26px; border-radius: 9px; border: 1px solid rgba(245,200,66,0.35); text-decoration: none; cursor: pointer; border: none; width: 100%; text-align: center; transition: all 0.15s; border: 1px solid rgba(245,200,66,0.35); }
+    .product-card-cta-ghost:hover { background: rgba(245,200,66,0.08); }
+
+    /* CASE STUDY */
+    .case-study { background: #0d0d0d; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
+    .case-inner { max-width: 1040px; margin: 0 auto; padding: 80px 20px; }
+    .case-study h2 { font-size: clamp(24px, 4vw, 40px); font-weight: 800; margin-bottom: 14px; letter-spacing: -0.8px; }
+    .case-study > .case-inner > p { color: #888; font-size: 17px; line-height: 1.7; max-width: 600px; margin-bottom: 52px; }
+    .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    .case-left {}
+    .case-client-tag { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .case-client-dot { width: 10px; height: 10px; background: #f5c842; border-radius: 50%; flex-shrink: 0; }
+    .case-client-tag p { font-size: 13px; color: #666; }
+    .case-client-tag p strong { color: #ccc; }
+    .case-left h3 { font-size: 26px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; line-height: 1.3; }
+    .case-left p { font-size: 15px; color: #888; line-height: 1.75; margin-bottom: 20px; }
+    .case-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+    .stat-box { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-box .num { font-size: 28px; font-weight: 900; color: #f5c842; letter-spacing: -1px; }
+    .stat-box .label { font-size: 12px; color: #555; margin-top: 4px; }
+    .case-right { display: flex; flex-direction: column; gap: 16px; }
+    .chat-bubble-wrap { background: #111; border: 1px solid #1e1e1e; border-radius: 16px; padding: 20px; }
+    .chat-bubble-wrap .chat-header { font-size: 11px; font-weight: 700; color: #555; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .chat-bubble-wrap .chat-header::before { content: ''; width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; display: inline-block; }
+    .msg { margin-bottom: 10px; display: flex; flex-direction: column; }
+    .msg.sent { align-items: flex-end; }
+    .msg.recv { align-items: flex-start; }
+    .bubble { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.55; }
+    .msg.sent .bubble { background: #128c7e; color: #fff; border-bottom-right-radius: 4px; }
+    .msg.recv .bubble { background: #1e1e1e; color: #ddd; border-bottom-left-radius: 4px; }
+    .bubble strong { display: block; margin-bottom: 4px; }
+    .bubble .pdf-link { display: inline-block; margin-top: 8px; color: #f5c842; font-size: 12px; text-decoration: underline; }
+    .quote-preview { border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
+    .quote-preview img { width: 100%; display: block; }
+    @media (max-width: 720px) { .case-grid { grid-template-columns: 1fr; } .case-stats { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 480px) { .case-stats { grid-template-columns: 1fr 1fr; } }
+
+    /* OUR WORK */
+    .portfolio { background: #0a0a0a; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
+    .portfolio-inner { max-width: 1040px; margin: 0 auto; padding: 80px 20px; }
+    .portfolio-tabs { display: flex; gap: 10px; margin-top: 36px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-btn { background: #111; border: 1px solid #2a2a2a; color: #777; font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active, .tab-btn:hover { background: #f5c842; color: #0a0a0a; border-color: #f5c842; }
+    .portfolio-project { display: none; }
+    .portfolio-project.active { display: block; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .portfolio-item { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 16/10; cursor: pointer; }
+    .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.3s ease; display: block; }
+    .portfolio-item:hover img { transform: scale(1.04); }
+    .portfolio-item .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 14px; }
+    .portfolio-item:hover .overlay { opacity: 1; }
+    .portfolio-item .overlay span { font-size: 12px; font-weight: 700; color: #f5c842; }
+    .portfolio-client { margin-top: 20px; display: flex; align-items: flex-start; gap: 12px; background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 16px 20px; }
+    .portfolio-client .dot { width: 10px; height: 10px; background: #f5c842; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .portfolio-client p { font-size: 14px; color: #777; line-height: 1.6; }
+    .portfolio-client p strong { color: #ddd; }
+    @media (max-width: 640px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+
+    /* FORM */
+    .form-section { background: linear-gradient(135deg, #111 0%, #141414 100%); border-top: 1px solid #1e1e1e; }
+    .form-wrap { max-width: 580px; margin: 0 auto; padding: 80px 20px; text-align: center; }
+    .form-wrap h2 { font-size: clamp(24px, 4vw, 36px); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
+    .form-wrap > p { color: #888; font-size: 16px; margin-bottom: 36px; line-height: 1.6; }
+    form { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+    form label { font-size: 12px; font-weight: 700; color: #666; margin-bottom: 4px; display: block; letter-spacing: 0.5px; text-transform: uppercase; }
+    form input, form select, form textarea { width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 9px; padding: 13px 16px; font-size: 15px; color: #eee; outline: none; transition: border-color 0.15s; font-family: inherit; }
+    form input:focus, form select:focus, form textarea:focus { border-color: #f5c842; }
+    form input::placeholder, form textarea::placeholder { color: #444; }
+    form select option { background: #111; }
+    form textarea { resize: vertical; min-height: 90px; }
+    .submit-btn { background: #f5c842; color: #0a0a0a; border: none; border-radius: 10px; padding: 16px; font-size: 17px; font-weight: 800; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; margin-top: 6px; width: 100%; }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,200,66,0.3); }
+    .form-note { text-align: center; font-size: 12px; color: #444; margin-top: 10px; }
+    .success-msg { display: none; text-align: center; padding: 40px 20px; }
+    .success-msg .check-big { font-size: 52px; margin-bottom: 16px; }
+    .success-msg h3 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+    .success-msg p { color: #888; font-size: 16px; }
+
+    footer { text-align: center; padding: 30px 20px; font-size: 13px; color: #444; border-top: 1px solid #1a1a1a; }
+    footer a { color: #666; text-decoration: none; }
+    footer a:hover { color: #f5c842; }
+    @media (max-width: 600px) { .hero { padding: 60px 20px 70px; } .products { padding: 60px 20px; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/40e57bc9c_77e4e010c_whatsapp_image_4487908768109209.jpg" alt="Dynasty Web" />
+    <span>Dynasty Web</span>
+  </div>
+  <a href="#get-started" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">&#9889; Digital Solutions for Texas Contractors</div>
+  <h1>Stop losing jobs to<br><span>contractors with better tech.</span></h1>
+  <p>We build the digital infrastructure that makes your contracting business look bigger, run faster, and close more deals — on and off the job site.</p>
+  <div class="hero-btns">
+    <button class="cta-btn" onclick="document.getElementById('get-started').scrollIntoView({behavior:'smooth'})">See What We Build</button>
+    <a href="#products" class="cta-btn-ghost">Our Solutions &#8594;</a>
+  </div>
+  <p class="hero-sub">East Texas based. Built for contractors.</p>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <ul>
+    <li>Built for Texas contractors</li>
+    <li>72-hour turnaround</li>
+    <li>No long contracts</li>
+    <li>Google-ready from day one</li>
+    <li>You own everything</li>
+    <li>AI-powered tools</li>
+  </ul>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="section-label">What we do</div>
+  <h2>Two products. One goal — <br>more money in your pocket.</h2>
+  <p>Whether you need a website that brings in leads or an AI agent that handles your quotes on the go, we build it, set it up, and hand you the keys.</p>
+
+  <div class="product-cards">
+    <!-- Product 1: Website -->
+    <div class="product-card featured">
+      <div class="product-badge">&#127760; Web Presence</div>
+      <div class="product-icon">&#128187;</div>
+      <h3>Contractor Website</h3>
+      <p>A fast, conversion-focused website built specifically for your trade. Not a template — a custom digital storefront that ranks on Google and turns visitors into calls.</p>
+      <ul class="product-features">
+        <li>Custom design — built around your trade and city</li>
+        <li>Google-optimized for local search from day one</li>
+        <li>Lead capture form with instant notifications</li>
+        <li>Mobile-first, loads in under 2 seconds</li>
+        <li>Free preview in 48 hours before you commit</li>
+      </ul>
+      <button class="product-card-cta" onclick="document.getElementById('get-started').scrollIntoView({behavior:'smooth'})">Get My Free Preview</button>
+    </div>
+
+    <!-- Product 2: AI Quote Agent -->
+    <div class="product-card">
+      <div class="product-badge">&#129302; AI Agent</div>
+      <div class="product-icon">&#128172;</div>
+      <h3>AI Quote Agent</h3>
+      <p>A custom AI that lives in your WhatsApp or iMessage. Text it a job description and it instantly generates a branded, professional PDF quote — ready to send to your client in seconds.</p>
+      <ul class="product-features">
+        <li>Works in WhatsApp or iMessage — no app to learn</li>
+        <li>Generates branded PDF quotes in under 60 seconds</li>
+        <li>Trained on your services and pricing</li>
+        <li>Tracks every quote and invoice automatically</li>
+        <li>Built and deployed for you — fully done for you</li>
+      </ul>
+      <button class="product-card-cta-ghost" onclick="document.getElementById('get-started').scrollIntoView({behavior:'smooth'})">Get This for My Business</button>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section class="case-study">
+  <div class="case-inner">
+    <div class="section-label">Case Study</div>
+    <h2>We built both for Cyril.<br>Here's what happened.</h2>
+    <p style="color:#888;font-size:17px;line-height:1.7;max-width:600px;margin-bottom:52px;">Cyril Handyman &amp; Door LLC out of Sulphur Springs, TX was quoting jobs by hand and had a website that didn't represent the quality of his work. We fixed both.</p>
+
+    <div class="case-grid">
+      <div class="case-left">
+        <div class="case-client-tag">
+          <div class="case-client-dot"></div>
+          <p><strong>Cyril Handyman &amp; Door LLC</strong> — Sulphur Springs, TX &nbsp;|&nbsp; Handyman &amp; Door Services</p>
+        </div>
+        <h3>From paper quotes and a forgotten website to a fully automated business.</h3>
+        <p>Cyril was quoting jobs manually — pen and paper, delayed follow-ups, and a website that didn't rank or convert. We rebuilt his digital presence from the ground up and gave him an AI agent that lives in his WhatsApp.</p>
+        <p>Now he texts the job details on his way back to the truck, and a branded PDF quote is ready before he gets home. His site ranks locally and brings in inbound leads while he works.</p>
+        <div class="case-stats">
+          <div class="stat-box"><div class="num">&lt;60s</div><div class="label">Quote generated</div></div>
+          <div class="stat-box"><div class="num">100%</div><div class="label">Branded PDFs</div></div>
+          <div class="stat-box"><div class="num">0</div><div class="label">Apps to learn</div></div>
+          <div class="stat-box"><div class="num">24/7</div><div class="label">Always on</div></div>
+        </div>
+      </div>
+
+      <div class="case-right">
+        <!-- Chat simulation -->
+        <div class="chat-bubble-wrap">
+          <div class="chat-header">CHD Quotes &bull; WhatsApp AI Agent</div>
+          <div class="msg sent">
+            <div class="bubble">New quote, carpet removal + install laminate stair case, $2800, Dunhill Lane Forney TX</div>
+          </div>
+          <div class="msg recv">
+            <div class="bubble">On it! Creating that now. &#128170;</div>
+          </div>
+          <div class="msg recv">
+            <div class="bubble">
+              <strong>&#127881; Quote QT-0003 Generated!</strong>
+              &#128222; (240) 906-2869<br>
+              &#128205; 1049 Dunhill Lane, Forney TX 75126<br>
+              &#128295; Carpet Removal + Install Laminate Staircase — $2,800.00<br>
+              &#9989; TOTAL: $2,800.00<br>
+              <span class="pdf-link">&#128196; PDF Quote Ready &#8599;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quote PDF preview -->
+        <div class="quote-preview">
+          <img src="https://media.base44.com/images/public/6a170e89603ad5dd2f50bbab/c98e699e6_Screenshot2026-05-27192545.png" alt="Cyril Handyman Quote PDF" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section class="portfolio">
+  <div class="portfolio-inner">
+    <div class="section-label">Our Work</div>
+    <h2>Built in East Texas. Looks like it costs twice as much.</h2>
+    <p style="color:#888;font-size:17px;line-height:1.7;max-width:600px;margin-bottom:0;">Every site we build is custom — no drag-and-drop templates, no cookie-cutter layouts.</p>
+    <div class="portfolio-tabs">
+      <button class="tab-btn active" onclick="switchTab('cyril')">Crazy Door Handyman</button>
+      <button class="tab-btn" onclick="switchTab('vydale')">Vydale T.C. Projects</button>
+    </div>
+
+    <div class="portfolio-project active" id="tab-cyril">
+      <div class="portfolio-grid">
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/da72a81ce_9705c7cfb_Screenshot2026-05-16093812.png" alt="Crazy Door Handyman" /><div class="overlay"><span>View</span></div></div>
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/55e4c75bb_78c45ad1e_Screenshot2026-05-16093836.png" alt="Crazy Door Handyman" /><div class="overlay"><span>View</span></div></div>
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/5bd3bb1b9_a94a0793b_Screenshot2026-05-16093826.png" alt="Crazy Door Handyman" /><div class="overlay"><span>View</span></div></div>
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/59df4e17e_26cab061d_Screenshot2026-05-16093852.png" alt="Crazy Door Handyman" /><div class="overlay"><span>View</span></div></div>
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/be2b3ef07_8950ca2c5_Screenshot2026-05-16093905.png" alt="Crazy Door Handyman" /><div class="overlay"><span>View</span></div></div>
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/5e8f38bfa_6df6965b4_Screenshot2026-05-16093920.png" alt="Crazy Door Handyman" /><div class="overlay"><span>View</span></div></div>
+      </div>
+      <div class="portfolio-client"><div class="dot"></div><p><strong>Cyril Handyman &amp; Door LLC</strong> — Sulphur Springs, TX. Full custom site + AI Quote Agent. Serves the Sulphur Springs, Tyler, and Dallas corridor.</p></div>
+    </div>
+
+    <div class="portfolio-project" id="tab-vydale">
+      <div class="portfolio-grid">
+        <div class="portfolio-item"><img src="https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/files/mp/public/6a170e89603ad5dd2f50bbab/da72a81ce_9705c7cfb_Screenshot2026-05-16093812.png" alt="Vydale T.C. Projects" /><div class="overlay"><span>View</span></div></div>
+      </div>
+      <div class="portfolio-client"><div class="dot"></div><p><strong>Vydale T.C. Projects</strong> — Motivational speaker &amp; author. Custom personal brand site built to book speaking engagements and sell digital products.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="get-started">
+  <div class="form-wrap">
+    <h2>Let's build something for your business.</h2>
+    <p>Tell us what you do and where you're at. We'll reach out within 24 hours with a plan.</p>
+    <div id="form-container">
+      <form onsubmit="handleSubmit(event)">
+        <div>
+          <label>Your Name</label>
+          <input type="text" id="f-name" placeholder="John Smith" required />
+        </div>
+        <div>
+          <label>Business Name</label>
+          <input type="text" id="f-biz" placeholder="Smith Roofing LLC" required />
+        </div>
+        <div>
+          <label>Trade / Industry</label>
+          <select id="f-trade">
+            <option value="">Select your trade</option>
+            <option>Roofer</option>
+            <option>HVAC</option>
+            <option>Handyman</option>
+            <option>Painter</option>
+            <option>Plumber</option>
+            <option>Electrician</option>
+            <option>Landscaper</option>
+            <option>General Contractor</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label>City, TX</label>
+          <input type="text" id="f-city" placeholder="Tyler, TX" required />
+        </div>
+        <div>
+          <label>Phone Number</label>
+          <input type="tel" id="f-phone" placeholder="(903) 555-0100" />
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="john@smithroofing.com" required />
+        </div>
+        <div>
+          <label>What are you interested in?</label>
+          <select id="f-interest">
+            <option value="Website">Website</option>
+            <option value="AI Quote Agent">AI Quote Agent</option>
+            <option value="Both">Both — website + AI agent</option>
+            <option value="Not sure">Not sure yet</option>
+          </select>
+        </div>
+        <div>
+          <label>Your current website (if any)</label>
+          <input type="text" id="f-website" placeholder="https://yoursite.com or 'None'" />
+        </div>
+        <button type="submit" class="submit-btn">Send My Info &#8594;</button>
+        <p class="form-note">No spam. No hard sell. We'll just show you what we can build.</p>
+      </form>
+    </div>
+    <div class="success-msg" id="success-msg">
+      <div class="check-big">&#9989;</div>
+      <h3>You're on our radar.</h3>
+      <p>We'll be in touch within 24 hours with a custom plan for your business.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&#169; 2026 Dynasty Web &mdash; East Texas &nbsp;&bull;&nbsp; <a href="mailto:dynastyweb26@gmail.com">dynastyweb26@gmail.com</a> &nbsp;&bull;&nbsp; <a href="https://dynasty-web-portfolio.vercel.app/" target="_blank">Portfolio</a></p>
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.portfolio-project').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const data = {
+      name: document.getElementById('f-name').value,
+      business: document.getElementById('f-biz').value,
+      trade: document.getElementById('f-trade').value,
+      city: document.getElementById('f-city').value,
+      phone: document.getElementById('f-phone').value,
+      email: document.getElementById('f-email').value,
+      notes: 'Interested in: ' + document.getElementById('f-interest').value + ' | Website: ' + document.getElementById('f-website').value,
+      status: 'New'
+    };
+    try {
+      await fetch('https://base44.app/api/apps/6a170e89603ad5dd2f50bbab/functions/captureInboundLead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(err) {}
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
